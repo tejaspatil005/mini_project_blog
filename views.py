@@ -1,11 +1,16 @@
-from django.shortcuts import render
-from .models import post
+from django.shortcuts import render,redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
 
-def home(request):
-    context={
-        'posts':post.objects.all()
-    }
-    return render(request,'blog/home.html',context)
 
-def about(request):
-    return render(request,'blog/about.html',{'title':'about'})
+
+def register(request):
+    if request.method=='POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            username=form.cleaned_data.get('Username')
+            messages.success(request,f'Account created for {username}')
+            return redirect('blog-home')
+        else:
+          form=UserCreationForm()
+    return render(request,'users/register.html',{'form':form})
