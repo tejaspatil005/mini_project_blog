@@ -121,6 +121,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
+STATIC_ROOT_ROOT= os.path.join(BASE_DIR,'staticfiles')
 STATIC_URL = "/static/"
 
 MEDIA_ROOT= os.path.join(BASE_DIR,'media')
@@ -145,3 +146,19 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = config('EMAIL_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_PASS')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
+import dj_database_url
+
+DEBUG = False
+
+ALLOWED_HOSTS = ['*']
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = '/static/'
+
+# Render’s database setup
+DATABASES['default'] = dj_database_url.config(
+    default=f"sqlite:///{os.path.join(BASE_DIR, 'db.sqlite3')}",
+    conn_max_age=600
+)
